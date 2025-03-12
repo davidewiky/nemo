@@ -1,0 +1,45 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /nemo
+  tomcat:
+    relaxed-query-chars:
+      - "{"
+      - "["
+      - "|"
+      - "]"
+      - "}"
+    relaxed-path-chars:
+      - "{"
+      - "["
+      - "|"
+      - "]"
+      - "}"
+    accesslog:
+      enabled: true
+      directory: /dev
+      prefix: stdout
+      buffered: false
+      suffix:
+      file-date-format:
+      condition-unless: discardlogs
+      pattern: '[%{yyyy-MM-dd HH:mm:ss:SSS}t - tomcat-ACCESSLOG] > [%h,%{x-forwarded-for}i] - "%r" %s %b %{ms}T'
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+      base-path: /
+      cors:
+        allowed-origins: "*"
+        allowed-origins-patterns: "*"
+        allowed-headers: "*"
+        allowed-methods: "*"
+        exposed-headers: "Authorization, Cache-Control, Content-Type"
+
+logging:
+  level:
+    ROOT: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} %5p ${PID:- } --- [%t] %-40.40logger{39} : [%X{Slf4jMDCFilter.UUID}] : %m%n%wEx"
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} %5p ${PID:- } --- [%t] %-40.40logger{39} : [%X{Slf4jMDCFilter.UUID}] : %m%n%wEx"
